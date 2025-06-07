@@ -1,0 +1,60 @@
+[versions]
+agp = "8.8.1"
+glide = "4.16.0"
+gotrueKt = "2.3.1"
+#kotlin = "1.9.24"
+#coreKtx = "1.16.0"
+#junit = "4.13.2"
+#junitVersion = "1.2.1"
+#espressoCore = "3.6.1"
+#appcompat = "1.7.0"
+kotlinxSerializationJson = "1.8.1"
+ktorClientAndroid = "1.11.11"
+ktorClientOkhttp = "2.3.10"
+maskededittextVersion = "0.8.8'"
+#material = "1.12.0"
+#activity = "1.10.1"
+#constraintlayout = "2.2.1"
+postgrestKt = "2.3.1"
+realtimeKt = "2.3.1"
+storageKt = "2.3.1"
+supabaseAndroid = "VERSION"
+
+#agp = "8.3.2"
+kotlin = "1.9.0"
+coreKtx = "1.10.1"
+junit = "4.13.2"
+junitVersion = "1.1.5"
+espressoCore = "3.5.1"
+appcompat = "1.6.1"
+material = "1.10.0"
+activity = "1.8.0"
+constraintlayout = "2.1.4"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+gotrue-kt = { module = "io.github.jan-tennert.supabase:gotrue-kt", version.ref = "gotrueKt" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktorClientAndroid" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorClientOkhttp" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+postgrest-kt = { module = "io.github.jan-tennert.supabase:postgrest-kt" }
+supabase-android = { module = "io.github.jan.supabase:supabase-android", version.ref = "supabaseAndroid" }
+supabase-postgrest-kt = { module = "io.github.jan-tennert.supabase:postgrest-kt", version.ref = "postgrestKt" }
+supabase-realtime-kt = { module = "io.github.jan-tennert.supabase:realtime-kt", version.ref = "realtimeKt" }
+supabase-storage-kt = { module = "io.github.jan-tennert.supabase:storage-kt", version.ref = "storageKt" }
+vicmox-maskededittext = { module = "com.vicmox:maskededittext", version.ref = "maskededittextVersion" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+#androidApplication = { id = "com.android.application", version.ref = "agp" }
+#jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+

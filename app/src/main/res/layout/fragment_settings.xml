@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="24dp"
+    android:layout_height="match_parent"
+    tools:context=".activities.FragmentSettings">
+
+
+    <TextView
+        android:fontFamily="@font/roboto"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Настройка темы"
+        android:textSize="14sp"
+        android:layout_marginBottom="8dp"/>
+
+    <RadioGroup
+        android:id="@+id/radioGroupTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radioButtonDark"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:buttonTint="@color/dark_purple"
+            android:fontFamily="@font/roboto"
+            android:text="Темная тема"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:textSize="14sp"
+            android:id="@+id/radioButtonLight"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:buttonTint="@color/dark_purple"
+            android:layout_marginTop="3dp"
+            android:checked="true"
+            android:fontFamily="@font/roboto"
+            android:text="Светлая тема"
+            android:textColor="@color/black" />
+
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="85dp"
+        android:background="@color/dark_purple" />
+
+    <TextView
+        android:textSize="14sp"
+        android:id="@+id/version_app"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="Версия приложения: "
+        android:textColor="@color/btn_color" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+        android:text="Детские технопарки «Кванториум» – это площадки, оснащенные высокотехнологичным оборудованием, нацеленные на подготовку новых высококвалифицированных инженерных кадров, разработку, тестирование и внедрение инновационных технологий и идей."
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:id="@+id/vk_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="220dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/vk_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="9dp"
+            android:text="Группа ВКонтакте"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/web_site_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/web_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:layout_marginStart="9dp"
+            android:text="Веб-сайт"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+    </LinearLayout>
+</FrameLayout>
