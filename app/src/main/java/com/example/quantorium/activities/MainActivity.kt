@@ -14,6 +14,7 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.quantorium.data.AuthManager
 import com.example.quantorium.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -24,7 +25,13 @@ class MainActivity : AppCompatActivity() {
     private val prefName = "ThemePref"
     private val themeKey = "isDarkMode"
 
+    private lateinit var authManager: AuthManager
+    private val auth_token = "auth"
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        authManager = AuthManager(this)
 
         sharedPreferences = getSharedPreferences(prefName, Context.MODE_PRIVATE)
         val isDarkModeSaved = sharedPreferences.contains(themeKey)
@@ -58,14 +65,17 @@ class MainActivity : AppCompatActivity() {
         val prefs = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val isFirstLaunch = prefs.getBoolean("is_first_launch", true)
 
-        if (isFirstLaunch) {
+        val token_auth = getSharedPreferences(auth_token, Context.MODE_PRIVATE)
+        val token = token_auth.getString("token", null)
+
+        if (isFirstLaunch && token_auth.toString().isEmpty()) {
             // Первый запуск — показываем всю анимацию
             startLogoAnimation()
             // Сохраняем, что пользователь запустил приложение впервые
             prefs.edit().putBoolean("is_first_launch", false).apply()
         } else {
             // Не первый запуск — запускаем анимацию до hideTextViewsAndShrinkLogo,
-            // а потом сразу переходим к ActivityFragment
+            //если будет токен, то переход на новую страницу, иначе на авторизацию
             startLogoAnimationForReturningUser()
         }
 
@@ -74,18 +84,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(int)
             overridePendingTransition(0,0)
         }
-    }
-
-    private fun navigateToActivityFragment() {
-        val intent = Intent(this, Auth::class.java)
-        startActivity(intent)
-        finish() // Close MainActivity to prevent going back
-    }
-
-    private fun navigateToAuthActivity() {
-        val intent = Intent(this, Auth::class.java)
-        startActivity(intent)
-        finish() // Close MainActivity to prevent going back
     }
 
     private fun startLogoAnimationForReturningUser() {
@@ -162,11 +160,19 @@ class MainActivity : AppCompatActivity() {
                 override fun onAnimationEnd(animation: Animator) {
                     binding.titleStart.visibility = View.INVISIBLE
                     binding.addressStart.visibility = View.INVISIBLE
-
-                    // Переход на ActivityFragment (замените на свой класс активности)
-                    val intent = Intent(this@MainActivity, ActivityFragment::class.java)
-                    startActivity(intent)
-                    finish()
+                    val prefs = getSharedPreferences(auth_token, Context.MODE_PRIVATE)
+                    val token = prefs.getString("token", null)
+                    if (token != null && token.isNotEmpty()) {
+                        // Токен есть, переходим к ActivityFragment
+                        val intent = Intent(this@MainActivity, ActivityFragment::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        // Токена нет, переходим к AuthActivity
+                        val intent = Intent(this@MainActivity, Auth::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
                 }
             })
             start()

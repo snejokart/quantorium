@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.quantorium.R
+import com.example.quantorium.data.AuthManager
 import com.example.quantorium.data.SupabaseUser
 import com.example.quantorium.databinding.FragmentEditProfileMetadataBinding
 import io.github.jan.supabase.exceptions.RestException
@@ -23,6 +24,8 @@ class EditProfileMetadata : Fragment() {
     private var _binding: FragmentEditProfileMetadataBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var authManager: AuthManager
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,6 +37,7 @@ class EditProfileMetadata : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        authManager = AuthManager(requireContext())
 
     CoroutineScope(Dispatchers.Main).launch {
         val user = SupabaseUser.supabase.auth.currentUserOrNull()
@@ -112,6 +116,7 @@ class EditProfileMetadata : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 SupabaseUser.supabase.auth.signOut()
+                authManager.clearToken()
                 Toast.makeText(
                     requireContext(),
                     "Вы вышли из своего аккаунта",

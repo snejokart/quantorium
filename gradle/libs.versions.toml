@@ -9,6 +9,7 @@ gotrueKt = "2.3.1"
 #espressoCore = "3.6.1"
 #appcompat = "1.7.0"
 kotlinxSerializationJson = "1.8.1"
+kotlinxSerializationJsonVersion = "1.6.0"
 ktorClientAndroid = "1.11.11"
 ktorClientOkhttp = "2.3.10"
 maskededittextVersion = "0.8.8'"
@@ -40,6 +41,7 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+kotlinx-serialization-json-v160 = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJsonVersion" }
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktorClientAndroid" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorClientOkhttp" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }

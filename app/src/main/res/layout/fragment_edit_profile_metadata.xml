@@ -6,188 +6,132 @@
     android:layout_height="match_parent"
     tools:context=".activities.EditProfileMetadata">
 
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="133dp"
-            android:layout_height="133dp"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/profile_icon" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/edit_text"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Фамилия"
-        android:layout_marginStart="150dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="10dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/surname"
-            style="@style/edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:inputType="text" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Имя"
-        android:layout_marginStart="150dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="49dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/name"
-            style="@style/edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:inputType="text" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Отчество"
-        android:layout_marginStart="150dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="90dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/patr"
-            style="@style/edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:inputType="text" />
-    </com.google.android.material.textfield.TextInputLayout>
-
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="166dp"
-            android:layout_marginEnd="24dp"
-            android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="26dp"
+                android:layout_marginEnd="24dp"
+                android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/surname"
+                style="@style/edit_text"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="14dp"
+                android:hint="Фамилия"
+                android:inputType="text" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name"
+                style="@style/edit_text"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="14dp"
+                android:hint="Имя"
+                android:inputType="text" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/patr"
+                style="@style/edit_text"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="14dp"
+                android:hint="Отчество"
+                android:inputType="text" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/age"
                 style="@style/edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
                 android:hint="Возраст"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:inputType="textEmailAddress" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    style="@style/edit_text"
-                    android:id="@+id/age"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phone_number"
                 style="@style/edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
                 android:hint="Номер телефона"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:inputType="text" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    style="@style/edit_text"
-                    android:id="@+id/phone_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/school"
                 style="@style/edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
                 android:hint="Школа"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:inputType="text" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    style="@style/edit_text"
-                    android:id="@+id/school"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/class_number"
                 style="@style/edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Класс"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginBottom="14dp"
+                android:hint="Номер класса"
+                android:inputType="textEmailAddress" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    style="@style/edit_text"
-                    android:id="@+id/class_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/email"
                 style="@style/edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Электронная почта"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    style="@style/edit_text"
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:hint="Email"
+                android:inputType="textEmailAddress" />
 
 
             <TextView
-                android:id="@+id/textView23"
+                android:id="@+id/textView5"
+                style="@style/text_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Посещаемые занятия:" />
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"
+                android:text="Посещаемые занятия:"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/course"
+                style="@style/text_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Основы программирования на языке PYTHON" />
 
             <TextView
-                android:id="@+id/warning"
+                android:id="@+id/warning2"
+                style="@style/text_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Пожалуйста, заполни все недостающие данные о себе" />
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="Пожалуйста, заполни все недостающие данные о себе"
+                android:textColor="#FF0000" />
 
-            <Button
-                android:id="@+id/btn_save"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Сохранить данные" />
+            <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_save"
+                    style="@style/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="22dp"
+                    android:text="Сохранить данные" />
 
-            <Button
-                android:id="@+id/btn_logout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Выйти из аккаунта" />
-        </LinearLayout>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_logout"
+                    style="@style/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_custom"
+                    android:textColor="@color/btn_color"
+                    android:text="Выйти из аккаунта" />
+            </LinearLayout>
+    </ScrollView>
 
-    </FrameLayout>
+</FrameLayout>

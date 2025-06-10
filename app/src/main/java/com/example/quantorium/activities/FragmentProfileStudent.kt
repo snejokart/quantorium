@@ -1,21 +1,29 @@
 package com.example.quantorium.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.quantorium.R
+import com.example.quantorium.data.AuthManager
 import com.example.quantorium.data.SupabaseUser
 import com.example.quantorium.databinding.FragmentProfileStudentBinding
 import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.exceptions.RestException
 import io.github.jan.supabase.gotrue.auth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class FragmentProfileStudent : Fragment() {
 
     private lateinit var binding: FragmentProfileStudentBinding
+
+    private lateinit var authManager: AuthManager
 
     //  Use this ONLY if SupabaseUser properly initializes and holds a client
     private val client: SupabaseClient by lazy { SupabaseUser.supabase } //  Initialization
@@ -32,6 +40,8 @@ class FragmentProfileStudent : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        authManager = AuthManager(requireContext())
 
         lifecycleScope.launch {
             val user = client.auth.currentUserOrNull()
@@ -58,6 +68,29 @@ class FragmentProfileStudent : Fragment() {
 //                            .circleCrop()
 //                            .into(binding.icon)
 //                    }
+            }
+        }
+
+        binding.btnLogout.setOnClickListener {
+            val int = Intent(requireContext(), Auth::class.java)
+
+            CoroutineScope(Dispatchers.Main).launch {
+                try {
+                    SupabaseUser.supabase.auth.signOut()
+                    authManager.clearToken()
+                    Toast.makeText(
+                        requireContext(),
+                        "Вы вышли из своего аккаунта",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    startActivity(int)
+                } catch (e: RestException) {
+                    Toast.makeText(requireContext(), "Данные обновлены", Toast.LENGTH_SHORT).show()
+                } catch (e: RestException) {
+                    Toast.makeText(requireContext(), "Ошибка", Toast.LENGTH_LONG).show()
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(), "Ошибка: ${e.message}", Toast.LENGTH_LONG).show()
+                }
             }
         }
 
