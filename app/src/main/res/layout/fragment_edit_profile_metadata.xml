@@ -106,7 +106,7 @@
                 android:text="Основы программирования на языке PYTHON" />
 
             <TextView
-                android:id="@+id/warning2"
+                android:id="@+id/warning"
                 style="@style/text_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -279,7 +279,7 @@ class MainActivity : AppCompatActivity() {
             binding.helloStart,
             binding.descStart,
             binding.btnStart,
-            binding.noAccStart
+//            binding.noAccStart
         )
 
         viewsToAnimate.forEach { view ->

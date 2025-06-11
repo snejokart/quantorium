@@ -58,8 +58,6 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:2.6.0")
 
-//    implementation (libs.kotlinx.serialization.json.v160)
-
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0-alpha01")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.0-alpha01")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")

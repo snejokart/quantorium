@@ -99,6 +99,7 @@
             android:text="Войти в аккаунт" />
 
         <LinearLayout
+            android:id="@+id/no_acc_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"

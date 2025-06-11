@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.quantorium.R
@@ -18,6 +19,8 @@ import io.github.jan.supabase.gotrue.auth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 
 class FragmentProfileStudent : Fragment() {
 
@@ -44,30 +47,33 @@ class FragmentProfileStudent : Fragment() {
         authManager = AuthManager(requireContext())
 
         lifecycleScope.launch {
+            if (binding.name.toString().isEmpty() || binding.surname.toString().isEmpty() || binding.patronymic.toString().isEmpty() || binding.dateBirth.toString().isEmpty() ||
+                binding.classNumber.toString().isEmpty() || binding.telNumber.toString().isEmpty() || binding.userEmail.toString().isEmpty() || binding.school.toString().isEmpty()) {
+
+                binding.warning.text = "Пожалуйста, заполните все поля."
+                binding.warning.isVisible = true // Показываем TextView с предупреждением
+                return@launch // Прекращаем выполнение функции
+            } else {
+                binding.warning.isVisible = false // Скрываем TextView, если все поля заполнены
+            }
+
             val user = client.auth.currentUserOrNull()
             if (user?.userMetadata != null) {
-                binding.name.text = user.userMetadata!!["name"]?.toString()
-                binding.surname.text = user.userMetadata!!["surname"]?.toString()
-                binding.patronymic.text = user.userMetadata!!["patr"]?.toString()
+                binding.name.text = user.userMetadata!!["name"]?.toString()?.trim('"') ?: ""
+                binding.surname.text = user.userMetadata!!["surname"]?.toString()?.trim('"') ?: ""
+                binding.patronymic.text = user.userMetadata!!["patr"]?.toString()?.trim('"') ?: ""
 
-                binding.dateBirth.text = user.userMetadata!!["age"]?.toString() ?: "Возраст: пусто"
+                binding.dateBirth.text = user.userMetadata!!["age"]?.toString()?.trim('"') ?: ""
                 binding.userEmail.text = user.email ?: ""
-                binding.school.text = user.userMetadata!!["school"]?.toString() ?: "Школа: пусто"
-                binding.telNumber.text =
-                    user.userMetadata!!["phone_number"]?.toString() ?: "Номер телефона: пусто"
-                binding.classNumber.text =
-                    user.userMetadata!!["class_number"]?.toString() ?: "Класс: пусто"
-                binding.course.text = user.userMetadata!!["course"]?.toString() ?: "Курс: пусто"
+//                binding.school.text = user.userMetadata!!["school"]?.toString()?.trim('"') ?: "Школа: пусто"
+                val encodedSchool = user.userMetadata!!["school"]?.toString()?.trim('"') ?: ""
+                val decodedSchool = URLDecoder.decode(encodedSchool, StandardCharsets.UTF_8.toString())
+                binding.school.setText(decodedSchool)
 
-//                val avatarUrl = getAvatarUrl(user.id, "avatars")  //  Call without client parameter
-//
-//                avatarUrl?.let {
-//                    withContext(Dispatchers.Main) {
-//                        Glide.with(requireContext())
-//                            .load(it)
-//                            .circleCrop()
-//                            .into(binding.icon)
-//                    }
+                binding.telNumber.text = user.userMetadata!!["phone_number"]?.toString()?.trim('"')
+                    ?: ""
+                binding.classNumber.text = user.userMetadata!!["class_number"]?.toString()?.trim('"')
+                    ?: ""
             }
         }
 

@@ -2,10 +2,12 @@ package com.example.quantorium.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.quantorium.R
 import com.example.quantorium.data.AuthManager
@@ -16,8 +18,11 @@ import io.github.jan.supabase.gotrue.auth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json.Default.parseToJsonElement
-import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
+import java.net.URLDecoder
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 class EditProfileMetadata : Fragment() {
 
@@ -39,22 +44,33 @@ class EditProfileMetadata : Fragment() {
 
         authManager = AuthManager(requireContext())
 
-    CoroutineScope(Dispatchers.Main).launch {
-        val user = SupabaseUser.supabase.auth.currentUserOrNull()
-        if (user?.userMetadata != null){
-            binding.name.setText(user.userMetadata!!["name"].toString())
-            binding.surname.setText(user.userMetadata!!["surname"].toString())
-            binding.patr.setText(user.userMetadata!!["patr"].toString())
+        if (binding.name.toString().isEmpty() || binding.surname.toString().isEmpty() || binding.patr.toString().isEmpty() || binding.age.toString().isEmpty() ||
+            binding.classNumber.toString().isEmpty() || binding.phoneNumber.toString().isEmpty() || binding.email.toString().isEmpty() || binding.school.toString().isEmpty()) {
 
-            binding.age.setText(user.userMetadata!!["age"].toString())
-            binding.email.setText(user.email ?: "")
-            binding.surname.setText(user.userMetadata!!["surname"].toString())
-            binding.school.setText(user.userMetadata!!["school"].toString())
-            binding.phoneNumber.setText(user.userMetadata!!["phone_number"].toString())
-            binding.classNumber.setText(user.userMetadata!!["class_number"].toString())
-            binding.course.setText(user.userMetadata!!["course"].toString())
+            binding.warning.text = "Пожалуйста, заполните все поля."
+            binding.warning.isVisible = true // Показываем TextView с предупреждением
+            return // Прекращаем выполнение функции
+        } else {
+            binding.warning.isVisible = false // Скрываем TextView, если все поля заполнены
         }
-    }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val user = SupabaseUser.supabase.auth.currentUserOrNull()
+            if (user?.userMetadata != null) {
+                binding.name.setText(user.userMetadata!!["name"]?.toString()?.trim('"') ?: "")
+                binding.surname.setText(user.userMetadata!!["surname"]?.toString()?.trim('"') ?: "")
+                binding.patr.setText(user.userMetadata!!["patr"]?.toString()?.trim('"') ?: "")
+                binding.age.setText(user.userMetadata!!["age"]?.toString()?.trim('"') ?: "")
+                binding.email.setText(user.email ?: "")
+//                binding.school.setText(user.userMetadata!!["school"]?.toString()?.trim('"') ?: "")
+                val encodedSchool = user.userMetadata!!["school"]?.toString()?.trim('"') ?: ""
+                val decodedSchool = URLDecoder.decode(encodedSchool, StandardCharsets.UTF_8.toString())
+                binding.school.setText(decodedSchool)
+                binding.phoneNumber.setText(user.userMetadata!!["phone_number"]?.toString()?.trim('"') ?: "")
+                binding.classNumber.setText(user.userMetadata!!["class_number"]?.toString()?.trim('"') ?: "")
+                // binding.course.setText(user.userMetadata!!["course"]?.toString()?.trim('"') ?: "")
+            }
+        }
 
 
     binding.btnSave.setOnClickListener {
@@ -75,20 +91,26 @@ class EditProfileMetadata : Fragment() {
 
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                val metadata =
-                    SupabaseUser.supabase.auth.currentUserOrNull()?.userMetadata!!.toMap()
-                        .toMutableMap()
-                metadata["name"] = parseToJsonElement(name)
-                metadata["surname"] = parseToJsonElement(surname)
-                metadata["patr"] = parseToJsonElement(patr)
-                metadata["age"] = parseToJsonElement(age)
-                metadata["class_number"] = parseToJsonElement(numClass)
-                metadata["phone_number"] = parseToJsonElement(phone)
-                metadata["school"] = parseToJsonElement(school)
+                val metadata = mutableMapOf<String, String>() // Изменяем тип на mutableMapOf<String, String>
+                metadata["name"] = name
+                metadata["surname"] = surname
+                metadata["patr"] = patr
+                metadata["age"] = age
+                metadata["class_number"] = numClass
+                metadata["phone_number"] = phone
+                metadata["school"] = URLEncoder.encode(school, StandardCharsets.UTF_8.toString()) // Экранируем пробелы
+
+                // Преобразуем Map в JsonObject
+                val jsonObject = buildJsonObject {
+                    metadata.forEach { (key, value) ->
+                        put(key, value)
+                    }
+                }
+                Log.d("updaterrrrr", "Обновляем профиль с данными: name=$name, surname=$surname, patr=$patr, age=$age, numClass=$numClass, phone=$phone, school=$school, email=$email")
 
                 SupabaseUser.supabase.auth.updateUser {
                     this.email = email
-                    this.data = JsonObject(metadata)
+                    this.data = jsonObject
                 }
                 Toast.makeText(
                     requireContext(),
@@ -103,9 +125,12 @@ class EditProfileMetadata : Fragment() {
                 fragmentTransaction.addToBackStack(null) // Добавьте фрагмент в бэкстек, чтобы пользователь мог вернуться
                 fragmentTransaction.commit()
             } catch (e: RestException) {
-                Toast.makeText(requireContext(), "Ошибка", Toast.LENGTH_LONG).show()
+                Log.e("ErrorProfile", "Ошибка при обновлении профиля (RestException): ${e.message}", e)
+                Toast.makeText(requireContext(), "Ошибка: ${e.message}", Toast.LENGTH_LONG).show()
+
             } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Ошибка", Toast.LENGTH_LONG).show()
+                Log.e("ErrorProfile1", "Неизвестная ошибка при обновлении профиля: ${e.message}", e)
+                Toast.makeText(requireContext(), "Ошибка: ${e.message}", Toast.LENGTH_LONG).show()
             }
         }
     }
