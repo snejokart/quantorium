@@ -52,7 +52,6 @@ class FragmentSchedule : Fragment() {
                 Log.e("FragmentSchedule", "Schedule items is null!")
                 binding.scheduleRecyclerView.isVisible = false
                 binding.progressBar.isVisible = false
-                // TODO: Show an error message or a placeholder layout
             }
         })
     }
