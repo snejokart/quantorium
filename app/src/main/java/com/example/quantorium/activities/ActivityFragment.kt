@@ -21,6 +21,9 @@ class ActivityFragment : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        super.onCreate(savedInstanceState) // Call super.onCreate() first!
+        setContentView(R.layout.activity_fragment)
+
         sharedPreferences = getSharedPreferences(prefName, Context.MODE_PRIVATE)
         val isDarkMode = sharedPreferences.getBoolean(themeKey, false)
         if (isDarkMode) {
@@ -29,12 +32,9 @@ class ActivityFragment : AppCompatActivity() {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
 
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_fragment)
-
-        toolbar = findViewById(R.id.toolbar) // Find Toolbar
-        setSupportActionBar(toolbar) // Set toolbar as action bar
-        supportActionBar?.setDisplayShowTitleEnabled(true) // Enable title display
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(true)
 
         bottomNavigationView = findViewById(R.id.bottom_nav)
 
@@ -43,7 +43,7 @@ class ActivityFragment : AppCompatActivity() {
         val settings = FragmentSettings()
         val profile = FragmentProfileStudent()
 
-        setCurrentFragment(news, "Новости") // Set initial fragment with title
+        setCurrentFragment(news, "Новости")
 
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -51,7 +51,7 @@ class ActivityFragment : AppCompatActivity() {
                 R.id.btn_schedule -> setCurrentFragment(schedule, "Расписание")
                 R.id.btn_settings -> setCurrentFragment(settings, "Настройки")
                 R.id.btn_profile -> setCurrentFragment(profile, "Профиль")
-                else -> false // Handle unexpected item IDs
+                else -> false
             }
             true
         }

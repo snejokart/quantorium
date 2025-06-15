@@ -1,5 +1,6 @@
 package com.example.quantorium.activities
 
+import NoAccountDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +29,12 @@ class Auth : AppCompatActivity() {
             startActivity(int)
             overridePendingTransition(0,0)
         }
+
+        binding.noAccBtn.setOnClickListener {
+            val dialog = NoAccountDialog()
+            dialog.show(supportFragmentManager, "NoAccountDialog")
+        }
+
 
         binding.auth.setOnClickListener {
             val email = binding.emailEditText.text.toString()

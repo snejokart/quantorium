@@ -2,9 +2,9 @@
 <resources>
     <color name="black">#FFFFFF</color>
     <color name="white">#190D1D</color>
-    <color name="btn_color">#95258A</color>
+    <color name="btn_color">#904789</color>
     <color name="hint_purple">#CC74FF</color>
-    <color name="dark_purple">#2E1538</color>
+    <color name="dark_purple">#342240</color>
     <color name="inverse_primary">#927FC0</color>
     <color name="transparent">#00FFFFFF</color>
 </resources>

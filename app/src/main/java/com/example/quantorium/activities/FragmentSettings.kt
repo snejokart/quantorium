@@ -1,33 +1,26 @@
 package com.example.quantorium.activities
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.quantorium.R
 
 class FragmentSettings : Fragment() {
 
-    private lateinit var radioGroupTheme: RadioGroup
-    private lateinit var radioButtonLight: RadioButton
-    private lateinit var radioButtonDark: RadioButton
+    private lateinit var radioGroupTheme: android.widget.RadioGroup
+    private lateinit var radioButtonLight: android.widget.RadioButton
+    private lateinit var radioButtonDark: android.widget.RadioButton
     private lateinit var sharedPreferences: SharedPreferences
     private val prefName = "ThemePref"
     private val themeKey = "isDarkMode"
-    private lateinit var versionTextView: TextView
-    private lateinit var url_vk: LinearLayout
-    private lateinit var url_website: LinearLayout
+    private lateinit var versionTextView: android.widget.TextView
+    private lateinit var url_vk: android.widget.LinearLayout
+    private lateinit var url_website: android.widget.LinearLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,21 +37,21 @@ class FragmentSettings : Fragment() {
             val packageInfo = requireContext().packageManager.getPackageInfo(requireContext().packageName, 0)
             val versionName = packageInfo.versionName
             versionTextView.text = "Версия приложения: $versionName"
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (e: android.content.pm.PackageManager.NameNotFoundException) {
             versionTextView.text = "Версия приложения: Не удалось получить"
         }
 
         url_vk = view.findViewById(R.id.vk_url)
         url_vk.setOnClickListener {
             val url = "https://vk.com/g4_news"
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url))
             startActivity(intent)
         }
 
         url_website = view.findViewById(R.id.web_site_url)
         url_website.setOnClickListener {
             val url = "https://gimnazium4.gosuslugi.ru/"
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url))
             startActivity(intent)
         }
 
@@ -101,8 +94,5 @@ class FragmentSettings : Fragment() {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
-
-        // The following line is usually not needed and can cause issues
-        //  requireActivity().recreate()
     }
 }

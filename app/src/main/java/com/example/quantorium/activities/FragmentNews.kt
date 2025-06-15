@@ -6,78 +6,101 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.RecyclerView
 import com.example.quantorium.adapters.NewsAdapterRecyclerView
 import com.example.quantorium.databinding.FragmentNewsBinding
+import kotlinx.coroutines.launch
 
 class FragmentNews : Fragment() {
 
-    private var binding: FragmentNewsBinding? = null
+    private var _binding: FragmentNewsBinding? = null
+    private val binding get() = _binding!!
     private lateinit var newsViewModel: NewsViewModel
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var adapter: NewsAdapterRecyclerView
-    private var offset = 0
-    private val pageSize = 5
+    private lateinit var layoutManager: LinearLayoutManager
+
+    private var isLoading = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentNewsBinding.inflate(inflater, container, false)
-        return binding?.root
+    ): View {
+        _binding = FragmentNewsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        newsViewModel = ViewModelProvider(this)[NewsViewModel::class.java]
+        // Get the ViewModel, scoped to the Activity
+        newsViewModel = ViewModelProvider(requireActivity())[NewsViewModel::class.java]
 
-        binding?.recyclerNews?.layoutManager = LinearLayoutManager(context)
-
-        // Initialize adapter
+        layoutManager = LinearLayoutManager(context)
+        binding.recyclerNews.layoutManager = layoutManager
         adapter = NewsAdapterRecyclerView(mutableListOf())
-        binding?.recyclerNews?.adapter = adapter
+        binding.recyclerNews.adapter = adapter
 
-        swipeRefreshLayout = binding?.root?.findViewById(com.example.quantorium.R.id.swipe_refresh_layout)!!
-        swipeRefreshLayout.setOnRefreshListener {
-            refreshNews()
+        binding.recyclerNews.isVisible = false
+        binding.progressBar.isVisible = true
+
+        binding.recyclerNews.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (!isLoading) {
+                    val totalItemCount = layoutManager.itemCount
+                    val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+                    if (totalItemCount <= (lastVisibleItem + 2)) {
+                        Log.d("FragmentNews", "Достигнут конец списка, загружаем больше")
+                        loadNews()
+                    }
+                }
+            }
+        })
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            loadNews() // Load initial data
         }
+    }
 
-        // Проверка: убедитесь, что OnClickListener установлен правильно
-        binding?.loadMoreButton?.setOnClickListener {
-            Log.d("FragmentNews", "Кнопка 'Показать больше' нажата")  // Добавляем лог
-            loadNews()
-        }
-
-        loadNews() // Загружаем первую партию новостей
+    override fun onResume() {
+        super.onResume()
+        Log.d("FragmentNews", "onResume() called")
     }
 
     private fun loadNews() {
-        swipeRefreshLayout.isRefreshing = true
-        Log.d("FragmentNews", "loadNews() вызвана. offset = $offset, pageSize = $pageSize") // Добавляем лог
-        newsViewModel.loadNews(offset, pageSize) // Важно: передаем offset
-        newsViewModel.newsLiveData.observe(viewLifecycleOwner) { news ->
-            if (news.isNotEmpty()) {
-//                adapter.clearData() // Clear existing data
-                adapter.addData(news) // Add new data
-                offset += pageSize // Важно: увеличиваем offset
-                Log.d("FragmentNews", "Новости загружены. Новый offset = $offset") // Добавляем лог
-            }
-            swipeRefreshLayout.isRefreshing = false
-        }
-    }
+        if (!isLoading) {
+            isLoading = true
+            Log.d("FragmentNews", "loadNews() вызвана")
+            //newsViewModel.resetOffset() // Delete this line
 
-    private fun refreshNews() {
-        offset = 0 // Сбрасываем offset при обновлении
-        adapter.clearData() // Очищаем список новостей
-        loadNews() // Загружаем первую страницу новостей
-        swipeRefreshLayout.isRefreshing = false
+            newsViewModel.loadNews()
+
+            newsViewModel.newsLiveData.observe(viewLifecycleOwner, Observer { news ->
+                Log.d("FragmentNews", "Observer сработал, получено ${news.size} новостей")
+                if (news != null) {
+                    adapter.clearData()
+                    adapter.addData(news)
+                    binding.recyclerNews.isVisible = true
+                    binding.progressBar.isVisible = false
+                } else {
+                    Log.w("FragmentNews", "newsLiveData is null - Ошибка при загрузке")
+                    // Отобразить сообщение об ошибке, если не удалось загрузить
+                    // Например, используя TextView или Snackbar
+                }
+                isLoading = false
+            })
+        } else {
+            Log.d("FragmentNews", "loadNews() проигнорирована, уже идет загрузка")
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 }
