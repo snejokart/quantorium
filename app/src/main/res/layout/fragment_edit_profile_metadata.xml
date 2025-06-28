@@ -12,12 +12,13 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="26dp"
-                android:layout_marginEnd="24dp"
-                android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="26dp"
+            android:layout_marginEnd="24dp"
+            android:orientation="vertical"
+            android:paddingBottom="40dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/surname"
@@ -116,22 +117,22 @@
                 android:textColor="#FF0000" />
 
             <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_save"
-                    style="@style/button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="22dp"
-                    android:text="Сохранить данные" />
+                android:id="@+id/btn_save"
+                style="@style/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="22dp"
+                android:text="Сохранить данные" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_logout"
-                    style="@style/button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edit_text_custom"
-                    android:textColor="@color/btn_color"
-                    android:text="Выйти из аккаунта" />
-            </LinearLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_logout"
+                style="@style/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_custom"
+                android:text="Выйти из аккаунта"
+                android:textColor="@color/btn_color" />
+        </LinearLayout>
     </ScrollView>
 
 </FrameLayout>

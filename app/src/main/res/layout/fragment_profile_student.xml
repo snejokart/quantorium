@@ -48,40 +48,111 @@
             android:textColor="@color/black"
             android:textSize="32sp" />
 
-        <TextView
-            style="@style/text_style"
-            android:id="@+id/date_birth"
+        <View
+            android:id="@+id/view2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Дата рождения:" />
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/btn_color" />
 
-        <TextView
-            style="@style/text_style"
-            android:id="@+id/tel_number"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Номер телефона:" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-        <TextView
-            style="@style/text_style"
-            android:id="@+id/school"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Школа:" />
+            <TextView
+                style="@style/text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Возраст:" />
 
-        <TextView
-            style="@style/text_style"
-            android:id="@+id/class_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Класс: " />
+            <TextView
+                android:id="@+id/date_birth"
+                style="@style/text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Возраст:" />
+        </LinearLayout>
 
-        <TextView
-            style="@style/text_style"
-            android:id="@+id/user_email"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Email: " />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Номер телефона: " />
+
+            <TextView
+                android:id="@+id/tel_number"
+                style="@style/text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Номер телефона:" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Школа: " />
+
+            <TextView
+                android:id="@+id/school"
+                style="@style/text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Школа: " />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Класс: " />
+
+            <TextView
+                android:id="@+id/class_number"
+                style="@style/text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Класс: " />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email: " />
+
+            <TextView
+                android:id="@+id/user_email"
+                style="@style/text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Email: " />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textView23"

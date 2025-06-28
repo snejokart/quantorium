@@ -13,6 +13,8 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class ScheduleViewModel : ViewModel() {
     val scheduleLiveData = MutableLiveData<List<ScheduleItem>>()
@@ -81,14 +83,31 @@ class ScheduleViewModel : ViewModel() {
         val teachers: TeacherResponse?
     ) {
         fun toScheduleItem(): ScheduleItem {
-            return ScheduleItem(
-                id = id,
-                time = time,
-                dayOfWeek = day_of_week,
-                cabinet = cabinet,
-                courseName = courses?.name ?: "Нет названия",
-                teacherFullName = teachers?.full_name ?: "Нет имени"
-            )
+            val inputFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault()) // Формат с секундами
+            val outputFormat = SimpleDateFormat("HH:mm", Locale.getDefault()) // Формат без секунд
+            return try {
+                val date = inputFormat.parse(time)
+                val formattedTime = outputFormat.format(date!!) // Отформатированное время
+                ScheduleItem(
+                    id = id,
+                    time = formattedTime,
+                    dayOfWeek = day_of_week,
+                    cabinet = cabinet,
+                    courseName = courses?.name ?: "Нет названия",
+                    teacherFullName = teachers?.full_name ?: "Нет имени"
+                )
+            } catch (e: Exception) {
+                // Handle parsing error, log it, and return a ScheduleItem with original time or a default value
+                Log.e("ScheduleViewModel", "Ошибка парсинга времени: ${e.message}")
+                ScheduleItem(
+                    id = id,
+                    time = time, // Return the original time if parsing fails
+                    dayOfWeek = day_of_week,
+                    cabinet = cabinet,
+                    courseName = courses?.name ?: "Нет названия",
+                    teacherFullName = teachers?.full_name ?: "Нет имени"
+                )
+            }
         }
     }
 

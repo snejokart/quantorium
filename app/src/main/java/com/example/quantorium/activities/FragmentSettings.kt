@@ -2,6 +2,7 @@ package com.example.quantorium.activities
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,7 +33,6 @@ class FragmentSettings : Fragment() {
 
         versionTextView = view.findViewById(R.id.version_app)
 
-        // Get the app version and set it to the TextView
         try {
             val packageInfo = requireContext().packageManager.getPackageInfo(requireContext().packageName, 0)
             val versionName = packageInfo.versionName
@@ -73,9 +73,6 @@ class FragmentSettings : Fragment() {
             val isDarkModeSelected = checkedId == R.id.radioButtonDark
             saveThemePreference(isDarkModeSelected)
             applyTheme(isDarkModeSelected)
-
-            // Remove requireActivity().recreate() or any code that replaces the fragment
-            // The theme change should be applied without fragment replacement
         }
 
         return view
@@ -91,8 +88,12 @@ class FragmentSettings : Fragment() {
     private fun applyTheme(isDarkMode: Boolean) {
         if (isDarkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            requireActivity().window.statusBarColor = Color.BLACK // или другой цвет для темного режима
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            requireActivity().window.decorView.systemUiVisibility = 0
+            requireActivity().window.statusBarColor = Color.WHITE // или другой цвет для светлого режима
         }
     }
 }

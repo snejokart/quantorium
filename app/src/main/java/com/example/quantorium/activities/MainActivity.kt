@@ -37,11 +37,9 @@ class MainActivity : AppCompatActivity() {
         val isDarkModeSaved = sharedPreferences.contains(themeKey)
 
         if (!isDarkModeSaved) {
-            // First launch: force light theme and save preference
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             sharedPreferences.edit().putBoolean(themeKey, false).apply() // Save "light theme" as the preference
         } else {
-            // Subsequent launches: load from preferences
             val isDarkMode = sharedPreferences.getBoolean(themeKey, false)
             AppCompatDelegate.setDefaultNightMode(
                 if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
@@ -68,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         val token_auth = getSharedPreferences(auth_token, Context.MODE_PRIVATE)
         val token = token_auth.getString("token", null)
 
-        if (isFirstLaunch && token_auth.toString().isEmpty()) {
+        if (isFirstLaunch) {
             // Первый запуск — показываем всю анимацию
             startLogoAnimation()
             // Сохраняем, что пользователь запустил приложение впервые
@@ -179,7 +177,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // --- Далее идут ваши уже реализованные методы анимации для первого запуска ---
 
     private fun startLogoAnimation() {
         binding.logoIcon.visibility = View.VISIBLE
@@ -214,7 +211,6 @@ class MainActivity : AppCompatActivity() {
                 playTogether(moveIn, rotate, scaleUpX, scaleUpY)
                 addListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        // Не меняем layoutParams! Размер фиксируем в layout
                         Handler(Looper.getMainLooper()).postDelayed({
                             showTextViews()
                         }, 1000)
@@ -254,7 +250,7 @@ class MainActivity : AppCompatActivity() {
         val scaleDownY = ObjectAnimator.ofFloat(binding.logoIcon, "scaleY", 1f, 0.5f).apply { duration = 500 }
 
         // Анимация поднятия логотипа
-        val moveUp = ObjectAnimator.ofFloat(binding.logoIcon, "translationY", 0f, -370f).apply { duration = 500 }
+        val moveUp = ObjectAnimator.ofFloat(binding.logoIcon, "translationY", 0f, -450f).apply { duration = 500 }
 
         AnimatorSet().apply {
             playTogether(fadeOut1, fadeOut2, scaleDownX, scaleDownY, moveUp)
@@ -262,8 +258,6 @@ class MainActivity : AppCompatActivity() {
                 override fun onAnimationEnd(animation: Animator) {
                     binding.titleStart.visibility = View.INVISIBLE
                     binding.addressStart.visibility = View.INVISIBLE
-
-                    // layoutParams не меняем, размер остается фиксированным
                     showLinearLayout()
                 }
             })

@@ -28,8 +28,7 @@ class FragmentProfileStudent : Fragment() {
 
     private lateinit var authManager: AuthManager
 
-    //  Use this ONLY if SupabaseUser properly initializes and holds a client
-    private val client: SupabaseClient by lazy { SupabaseUser.supabase } //  Initialization
+    private val client: SupabaseClient by lazy { SupabaseUser.supabase }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +36,6 @@ class FragmentProfileStudent : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentProfileStudentBinding.inflate(inflater, container, false)
-        // Do NOT initialize client here.  It's handled with `by lazy` above
         return binding.root
     }
 
@@ -51,8 +49,8 @@ class FragmentProfileStudent : Fragment() {
                 binding.classNumber.toString().isEmpty() || binding.telNumber.toString().isEmpty() || binding.userEmail.toString().isEmpty() || binding.school.toString().isEmpty()) {
 
                 binding.warning.text = "Пожалуйста, заполните все поля."
-                binding.warning.isVisible = true // Показываем TextView с предупреждением
-                return@launch // Прекращаем выполнение функции
+                binding.warning.isVisible = true
+                return@launch
             } else {
                 binding.warning.isVisible = false // Скрываем TextView, если все поля заполнены
             }
@@ -65,7 +63,6 @@ class FragmentProfileStudent : Fragment() {
 
                 binding.dateBirth.text = user.userMetadata!!["age"]?.toString()?.trim('"') ?: ""
                 binding.userEmail.text = user.email ?: ""
-//                binding.school.text = user.userMetadata!!["school"]?.toString()?.trim('"') ?: "Школа: пусто"
                 val encodedSchool = user.userMetadata!!["school"]?.toString()?.trim('"') ?: ""
                 val decodedSchool = URLDecoder.decode(encodedSchool, StandardCharsets.UTF_8.toString())
                 binding.school.setText(decodedSchool)
@@ -103,13 +100,12 @@ class FragmentProfileStudent : Fragment() {
         binding.btnEdit.setOnClickListener {
             val destinationFragment = EditProfileMetadata()
 
-            // Замените текущий фрагмент на целевой
             val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
             fragmentTransaction.replace(
                 R.id.fragment,
                 destinationFragment
-            ) // Замените R.id.fragment_container на ID контейнера фрагментов в вашем layout
-            fragmentTransaction.addToBackStack(null) // Добавьте фрагмент в бэкстек, чтобы пользователь мог вернуться
+            )
+            fragmentTransaction.addToBackStack(null)
             fragmentTransaction.commit()
         }
     }

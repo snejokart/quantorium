@@ -16,6 +16,14 @@
         android:textColor="@color/black"
         android:textSize="22sp" />
 
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/btn_color" />
+
     <TextView
         android:id="@+id/text_news"
         android:layout_width="match_parent"
@@ -23,7 +31,7 @@
         android:text="Description"
         android:textSize="14sp"
         android:textColor="@color/black"
-        android:maxLines="10"/>
+        android:maxLines="20"/>
 
     <LinearLayout
         android:layout_width="match_parent"

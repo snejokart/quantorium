@@ -1,11 +1,13 @@
 package com.example.quantorium.adapters
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quantorium.databinding.ItemNewsBinding
@@ -49,8 +51,17 @@ class NewsAdapterRecyclerView(
             val url = model.link
 
             linkNews.setOnClickListener {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                ContextCompat.startActivity(holder.itemView.context, intent, null)
+                try {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    ContextCompat.startActivity(holder.itemView.context, intent, null)
+                } catch (e: ActivityNotFoundException){
+                    // Handle the exception gracefully
+                    Log.e("NewsAdapter", "No activity found to handle this intent: ${e.message}")
+                    Toast.makeText(holder.itemView.context, "No app found to open the link", Toast.LENGTH_SHORT).show()
+                }
+                catch (e: Exception){
+                    Log.e("NewsAdapter", "An unexpected error occured: ${e.message}")
+                }
             }
         }
     }
